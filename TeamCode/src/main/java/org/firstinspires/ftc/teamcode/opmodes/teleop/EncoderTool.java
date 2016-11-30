@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.opmodes.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.TetrixConstants;
 import org.firstinspires.ftc.teamcode.control.EncoderInstructionSet;
 import org.firstinspires.ftc.teamcode.exceptions.UnfoundHardwareException;
 import org.firstinspires.ftc.teamcode.opmodes.MasterOpMode;
@@ -31,6 +30,7 @@ public class EncoderTool extends MasterOpMode {
 
     @Override
     public void or_start() {
+        /*
         try {
             autonomous();
         } catch (UnfoundHardwareException ex) {
@@ -39,10 +39,12 @@ public class EncoderTool extends MasterOpMode {
             telemetry.update();
             requestOpModeStop();
         }
+        */
     }
 
     @Override
     public void or_loop() {
+        /*
         if (gh1.onDown("A")) {
             robot.leftDriveBasePosition = robot.leftDrive.motor.getCurrentPosition();
             robot.rightDriveBasePosition = robot.rightDrive.motor.getCurrentPosition();
@@ -50,10 +52,11 @@ public class EncoderTool extends MasterOpMode {
 
         if (gh1.onDown("Y"))
             robot.reverseDrive();
+        */
 
         robot.leftDrive.motor.setPower(Math.signum(-gamepad1.left_stick_y) * 0.5);
         robot.rightDrive.motor.setPower(Math.signum(-gamepad1.right_stick_y) * 0.5);
-
+/*
         robot.rightDriveRelativePosition = robot.rightDrive.motor.getCurrentPosition() - robot.rightDriveBasePosition;
         robot.leftDriveRelativePosition = robot.leftDrive.motor.getCurrentPosition() - robot.leftDriveBasePosition;
 
@@ -61,5 +64,6 @@ public class EncoderTool extends MasterOpMode {
         telemetry.addData("Right Motor RelPos [tick]", "%d ticks", robot.rightDriveRelativePosition);
         telemetry.addData("Left Motor RelPos [inch]", "%f in", robot.leftDriveRelativePosition / TetrixConstants.ENCODER_TICKS_PER_REV * TetrixConstants.OMNIWHEEL_LARGE_CIRCUMFERENCE_IN);
         telemetry.addData("Right Motor RelPos [inch]", "%f in", robot.rightDriveRelativePosition / TetrixConstants.ENCODER_TICKS_PER_REV * TetrixConstants.OMNIWHEEL_LARGE_CIRCUMFERENCE_IN);
+    */
     }
 }

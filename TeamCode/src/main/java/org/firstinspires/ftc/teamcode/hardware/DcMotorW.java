@@ -5,9 +5,9 @@ import org.firstinspires.ftc.teamcode.control.EncoderDirective;
 
 public class DcMotorW {
 
-    public DcMotor motor;
+    public DcMotorImpl motor;
 
-    public DcMotorW(DcMotor m) {
+    public DcMotorW(DcMotorImpl m) {
         motor = m;
     }
 

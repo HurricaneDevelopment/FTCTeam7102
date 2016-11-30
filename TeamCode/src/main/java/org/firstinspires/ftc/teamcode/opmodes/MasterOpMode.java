@@ -1,11 +1,16 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotorImpl;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.exceptions.UnfoundHardwareException;
-import org.firstinspires.ftc.teamcode.robots.Robot;
 import org.firstinspires.ftc.teamcode.control.GamepadHelper;
+import org.firstinspires.ftc.teamcode.exceptions.UnfoundHardwareException;
+import org.firstinspires.ftc.teamcode.hardware.DcMotorW;
+import org.firstinspires.ftc.teamcode.robots.Motors;
+import org.firstinspires.ftc.teamcode.robots.Robot;
+
+import java.util.List;
 
 public class MasterOpMode extends OpMode {
     
@@ -28,6 +33,7 @@ public class MasterOpMode extends OpMode {
 
     @Override
     public void init() {
+        runtime = new ElapsedTime();
         runtime.reset();
         telemetry.addData("Status", "Initializing");
         telemetry.addData("Runtime", "%f", runtime.seconds());
@@ -35,9 +41,27 @@ public class MasterOpMode extends OpMode {
         try {
             robotI.start();
         } catch (UnfoundHardwareException ex) {
-            telemetry.clearAll();
+            //telemetry.clearAll();
             telemetry.addData("Error",ex.getMessage());
             telemetry.update();
+
+            Motors motos = new Motors();
+            List<DcMotorImpl> devices = hardwareMap.getAll(DcMotorImpl.class);
+            telemetry.addData("Devices",devices);
+
+            for(DcMotorImpl device : devices) {
+                telemetry.addData(hardwareMap.getNamesOf(device).iterator().next(),new DcMotorW(device));
+                motos.Motors.put(hardwareMap.getNamesOf(device).iterator().next(),new DcMotorW(device));
+            }
+            telemetry.update();
+            while (runtime.seconds() < 5) {
+                //telemetry.addData("Error",ex.getMessage());
+                //telemetry.addData("Motors",robotI.motors.toString());
+                //telemetry.addData("All Hardware",hardwareMap.getNamesOf(hardwareMap.getAll(DcMotor.class).get(0)).iterator().next());
+                //telemetry.update();
+                List<DcMotorImpl> devi = hardwareMap.getAll(DcMotorImpl.class);
+                telemetry.addData("Devices",devi);
+            }
             requestOpModeStop();
         }
     }
