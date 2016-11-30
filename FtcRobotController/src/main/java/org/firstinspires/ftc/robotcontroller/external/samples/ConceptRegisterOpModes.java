@@ -73,7 +73,7 @@ public class ConceptRegisterOpModes
     // Or add your own lines to register your Team opmodes.
 
     // Basic Templates
-    // manager.register("Iterative Opmode",       TemplateOpMode_Iterative.class);
+     manager.register("Iterative Opmode",       TemplateOpMode_Iterative.class);
     // manager.register("Linear Opmode",          TemplateOpMode_Linear.class);
 
     // Driving Samples
