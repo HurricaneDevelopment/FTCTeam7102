@@ -1,6 +1,15 @@
+package org.firstinspires.ftc.teamcode.opmodes;
+
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.teamcode.exceptions.UnfoundHardwareException;
+import org.firstinspires.ftc.teamcode.robots.Robot;
+import org.firstinspires.ftc.teamcode.control.GamepadHelper;
+
 public class MasterOpMode extends OpMode {
     
-    public Robot robot;
+    public Robot robotI;
 
     public GamepadHelper gh1;
     public GamepadHelper gh2;
@@ -13,17 +22,24 @@ public class MasterOpMode extends OpMode {
         gh2 = new GamepadHelper();
     }
 
-    public setRobot(Robot robot) {
-        this.robot = robot;
+    public void setRobot(Robot robot) {
+        this.robotI = robot;
     }
 
     @Override
     public void init() {
         runtime.reset();
-        robot.start();
         telemetry.addData("Status", "Initializing");
         telemetry.addData("Runtime", "%f", runtime.seconds());
         or_init();
+        try {
+            robotI.start();
+        } catch (UnfoundHardwareException ex) {
+            telemetry.clearAll();
+            telemetry.addData("Error",ex.getMessage());
+            telemetry.update();
+            requestOpModeStop();
+        }
     }
 
     @Override
@@ -75,7 +91,7 @@ public class MasterOpMode extends OpMode {
     @Override
     public void stop() {
         runtime.reset();
-        robot.stop();
+        robotI.stop();
         telemetry.addData("Status", "Stopped");
         telemetry.addData("Runtime", "%f", runtime.seconds());
         or_stop();

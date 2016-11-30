@@ -1,3 +1,4 @@
+package org.firstinspires.ftc.teamcode.exceptions;
 public class UnfoundHardwareException extends Exception {
     
     private String deviceType;
@@ -17,6 +18,6 @@ public class UnfoundHardwareException extends Exception {
     }
 
     public String getMessage() {
-        return "Could not find a '" + deviceType + "' named '" + deviceName + "'";
+        return "Could not find a '" + getDeviceType() + "' named '" + getDeviceName() + "'";
     }
 }

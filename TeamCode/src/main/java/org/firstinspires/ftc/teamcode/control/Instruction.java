@@ -1,3 +1,4 @@
+package org.firstinspires.ftc.teamcode.control;
 public interface Instruction {
-    public void run();
+    void run();
 }

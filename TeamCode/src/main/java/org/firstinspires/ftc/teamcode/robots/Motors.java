@@ -1,16 +1,28 @@
+package org.firstinspires.ftc.teamcode.robots;
+
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareDevice;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.teamcode.exceptions.UnfoundHardwareException;
+import org.firstinspires.ftc.teamcode.hardware.DcMotorW;
+
+import java.util.HashMap;
+import java.util.List;
+
 public class Motors {
 
-    private HashMap<String,DcMotorW> Motors;
+    public HashMap<String,DcMotorW> Motors;
 
     public  Motors() {
         Motors = new HashMap<String,DcMotorW>();
     }
 
     public void loadHardware(HardwareMap hwmap) {
-        List<HardwareDevice> devices = hardwareMap.getAll(HardwareDevice);
+        List<HardwareDevice> devices = hwmap.getAll(HardwareDevice.class);
         for(HardwareDevice device : devices)
             if (device instanceof DcMotor)
-                Motors.put(hardwareMap.getNamesof(device).get(0),new DcMotorW(device));
+                Motors.put(hwmap.getNamesOf(device).iterator().next(),new DcMotorW((DcMotor) device));
     }
 
     public DcMotorW get(String str) throws UnfoundHardwareException {
@@ -20,6 +32,6 @@ public class Motors {
     }
 
     public String toString() {
-        return Motors;
+        return Motors.toString();
     }
 }

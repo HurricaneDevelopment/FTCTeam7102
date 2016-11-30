@@ -1,3 +1,6 @@
+package org.firstinspires.ftc.teamcode.control;
+import com.qualcomm.robotcore.hardware.Gamepad;
+
 public class GamepadHelper {
 
     public Gamepad gp;
@@ -25,22 +28,20 @@ public class GamepadHelper {
         if (gp == null)
             return false;
         
-        switch (comp.lowerCase()) {
+        switch (comp.toLowerCase()) {
             case "a":
                 return gp.a && !a;
-                break;
+
             case "b":
                 return gp.b && !b;
-                break;
+
             case "x":
                 return gp.x && !x;
-                break;
+
             case "y":
                 return gp.y && !y;
-                break;
             default:
                 return false;
-                break;
         }
     }
 }

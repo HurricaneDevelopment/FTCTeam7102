@@ -1,15 +1,19 @@
+package org.firstinspires.ftc.teamcode.control;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
+import java.util.HashSet;
 public class EncoderInstructionSet extends HashSet<EncoderDirective> implements Instruction {
     
     private ElapsedTime timer;
-    private boolean complete;
+    private boolean running;
 
     public EncoderInstructionSet() {
         timer = new ElapsedTime();
-        complete = null;
+        running = false;
     }
 
     public boolean busy() {
-        if (complete == null || !complete)
+        if (!running)
             return false;
         for (EncoderDirective inst : this)
             if (inst.busy(timer)) return true;
@@ -17,7 +21,7 @@ public class EncoderInstructionSet extends HashSet<EncoderDirective> implements 
     }
 
     public void run() {
-        complete = false;
+        running = true;
 
         for (EncoderDirective inst : this)
             inst.start();
@@ -38,6 +42,6 @@ public class EncoderInstructionSet extends HashSet<EncoderDirective> implements 
             if (done) break;
         }
 
-        complete = false;
+        running = false;
     }
 }
