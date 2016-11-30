@@ -18,47 +18,36 @@ import java.util.Set;
 public class EncoderTool extends MasterOpMode {
 
     private void autonomous() {
-        
+        EncoderInstructionSet encoderInst = new EncoderInstructionSet();
+        encoderInst.add(robot.leftDrive.createEncoderInstruction(0.5,10,5));
+        encoderInst.add(robot.rightDrive.createEncoderInstruction(0.5,10,5));
+        encoderInst.run();
     }
 
     @Override
     public void or_start() {
-
+        autonomous();
     }
 
     @Override
     public void or_loop() {
-        Set<EncoderInstruction> instructions = new HashSet<EncoderInstruction>();
-        instructions.add(new EncoderInstruction(motorLeft, 0.5, 10, 5));
-        instructions.add(new EncoderInstruction(motorRight, 0.5, 10, 5));
-
-        EncoderInstruction.driveInstructionSet(instructions);
-
-        telemetry.addData("Status", "Running");
-        telemetry.addData("Runtime", "%f", runtime.seconds());
-
-        if (gamepad1.a && !a) {
-            motorLeftBasePosition = motorLeft.getCurrentPosition();
-            motorRightBasePosition = motorRight.getCurrentPosition();
+        if (gh1.onDown("A")) {
+            robot.leftDriveBasePosition = robot.leftDrive.getCurrentPosition();
+            robot.rightDriveBasePosition = robot.rightDrive.getCurrentPosition();
         }
 
-        if (gamepad1.y && !y) {
-            motorLeft.setDirection((motorLeft.getDirection() == DcMotor.Direction.FORWARD ? (DcMotor.Direction.REVERSE) : (DcMotor.Direction.FORWARD)));
-            motorRight.setDirection((motorRight.getDirection() == DcMotor.Direction.FORWARD ? (DcMotor.Direction.REVERSE) : (DcMotor.Direction.FORWARD)));
-        }
+        if (gh1.onDown("Y"))
+            robot.reverseDrive();
 
-        y = gamepad1.y;
-        a = gamepad1.a;
+        leftDrive.setPower(Math.signum(-gamepad1.left_stick) * 0.5);
+        rightDrive.setPower(Math.signum(-gamepad1.right_stick) * 0.5);
 
-        motorLeft.setPower((motorLeft.getDirection() == DcMotor.Direction.REVERSE ? -gamepad1.left_stick_y : -gamepad1.right_stick_y) / 2);
-        motorRight.setPower((motorRight.getDirection() == DcMotor.Direction.REVERSE ? -gamepad1.right_stick_y : -gamepad1.left_stick_y) / 2);
+        robot.rightDriveRelativePosition = robot.rightDrive.getCurrentPosition() - robot.rightDriveBasePosition;
+        robot.leftDriveRelativePosition = robot.leftDrive.getCurrentPosition() - robot.leftDriveBasePosition;
 
-        motorRightRelativePosition = motorRight.getCurrentPosition() - motorRightBasePosition;
-        motorLeftRelativePosition = motorLeft.getCurrentPosition() - motorLeftBasePosition;
-
-        telemetry.addData("Left Motor RelPos [tick]", "%d ticks", motorLeftRelativePosition);
-        telemetry.addData("Right Motor RelPos [tick]", "%d ticks", motorRightRelativePosition);
-        telemetry.addData("Left Motor RelPos [inch]", "%f in", motorLeftRelativePosition / Constants.ENCODER_TICKS_PER_REV * Constants.OMNIWHEEL_LARGE_CIRCUMFERENCE_IN);
-        telemetry.addData("Right Motor RelPos [inch]", "%f in", motorRightRelativePosition / Constants.ENCODER_TICKS_PER_REV * Constants.OMNIWHEEL_LARGE_CIRCUMFERENCE_IN);
+        telemetry.addData("Left Motor RelPos [tick]", "%d ticks", robot.leftDriveRelativePosition);
+        telemetry.addData("Right Motor RelPos [tick]", "%d ticks", robot.rightDriveRelativePosition);
+        telemetry.addData("Left Motor RelPos [inch]", "%f in", robot.leftDriveRelativePosition / Constants.ENCODER_TICKS_PER_REV * Constants.OMNIWHEEL_LARGE_CIRCUMFERENCE_IN);
+        telemetry.addData("Right Motor RelPos [inch]", "%f in", robot.rightDriveRelativePosition / Constants.ENCODER_TICKS_PER_REV * Constants.OMNIWHEEL_LARGE_CIRCUMFERENCE_IN);
     }
 }

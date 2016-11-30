@@ -3,10 +3,10 @@ public class RobotEncodedTankDrive extends Robot {
     public DcMotorW leftDrive;
     public DcMotorW rightDrive;
 
-    private int motorRightRelativePosition;
-    private int motorRightBasePosition;
-    private int motorLeftRelativePosition;
-    private int motorLeftBasePosition;
+    public int rightDriveRelativePosition;
+    public int rightDriveBasePosition;
+    public int leftDriveRelativePosition;
+    public int leftDriveBasePosition;
 
     public void start() throws UnfoundHardwareException {
         leftDrive = motors.get("left");
@@ -15,9 +15,9 @@ public class RobotEncodedTankDrive extends Robot {
         leftDrive.setDirection(DcMotorW.Direction.REVERSE);
         rightDrive.setDirection(DcMotorW.Direction.REVERSE);
 
-        motorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         leftDriveBasePosition = leftDrive.getCurrentPosition();
