@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.Constants;
 
 import java.util.Set;
 
-public class EncoderInstruction {
+public class EncoderDirective {
     public DcMotor motor;
     public double speed;
     public double inches;
@@ -17,7 +17,10 @@ public class EncoderInstruction {
 
     private boolean complete;
 
-    public EncoderInstruction(DcMotor motor, double speed, double inches, double timeout) {
+    public EncoderInstruction(DcMotor motor, double speed, double inches, double timeout) throws UnfoundHardwareException {
+        if (!(motor instanceof DcMotor))
+            throw new UnfoundHardwareException("DcMotor","Unknown");
+
         this.motor = motor;
         this.speed = speed;
         this.inches = inches;
@@ -43,28 +46,5 @@ public class EncoderInstruction {
 
     public boolean busy(ElapsedTime timer) {
         return !complete && motor.isBusy() && timer.seconds() < timeout;
-    }
-
-    public static boolean instructionSetBusy(Set<EncoderInstruction> instructions, ElapsedTime timer) {
-        for (EncoderInstruction inst : instructions)
-            if (inst.busy(timer)) return true;
-        return false;
-    }
-
-    public static void driveInstructionSet(Set<EncoderInstruction> instructions) {
-        ElapsedTime timer = new ElapsedTime();
-
-        for (EncoderInstruction inst : instructions)
-            inst.start();
-
-        timer.reset();
-
-        while (EncoderInstruction.instructionSetBusy(instructions, timer)) {
-            for (EncoderInstruction inst : instructions) {
-                if (!inst.busy(timer)) {
-                    inst.stop();
-                }
-            }
-        }
     }
 }

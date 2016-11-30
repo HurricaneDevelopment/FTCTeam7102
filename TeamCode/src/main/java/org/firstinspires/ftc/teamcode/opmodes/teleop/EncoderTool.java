@@ -14,70 +14,20 @@ import java.util.Set;
 /**
  * Created by vivek on 11/28/2016.
  */
-@TeleOp(name="TeleOpEncoderTest", group="7102 Tests")
-public class TeleOpEncoderTest extends OpMode {
+@TeleOp(name="EncoderTool", group="Tools")
+public class EncoderTool extends MasterOpMode {
 
-    public static final boolean reverseLeft = true;
-    public static final boolean reverseRight = true;
-
-    private DcMotor motorLeft;
-    private DcMotor motorRight;
-
-    private int motorRightRelativePosition;
-    private int motorRightBasePosition;
-    private int motorLeftRelativePosition;
-    private int motorLeftBasePosition;
-
-    private ElapsedTime runtime;
-
-    private boolean a;
-    private boolean y;
-
-    @Override
-    public void init() {
-        motorLeft = hardwareMap.dcMotor.get("left");
-        motorRight = hardwareMap.dcMotor.get("right");
-
-        if (TeleOpEncoderTest.reverseLeft) motorLeft.setDirection(DcMotor.Direction.REVERSE);
-        if (TeleOpEncoderTest.reverseRight) motorRight.setDirection(DcMotor.Direction.REVERSE);
-
-        motorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        motorLeftBasePosition = motorLeft.getCurrentPosition();
-        motorRightBasePosition = motorRight.getCurrentPosition();
-
-        runtime = new ElapsedTime();
-
-        a = false;
-        y = false;
-
-        telemetry.addData("Status", "Initialized");
+    private void autonomous() {
+        
     }
 
-    /*
-     * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
-     */
     @Override
-    public void init_loop() {
-        telemetry.addData("Status", "Preparatory");
+    public void or_start() {
+
     }
 
-    /*
-     * Code to run ONCE when the driver hits PLAY
-     */
     @Override
-    public void start() {
-        telemetry.addData("Status", "Starting");
-    }
-
-    /*
-     * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
-     */
-    @Override
-    public void loop() {
+    public void or_loop() {
         Set<EncoderInstruction> instructions = new HashSet<EncoderInstruction>();
         instructions.add(new EncoderInstruction(motorLeft, 0.5, 10, 5));
         instructions.add(new EncoderInstruction(motorRight, 0.5, 10, 5));
@@ -110,18 +60,5 @@ public class TeleOpEncoderTest extends OpMode {
         telemetry.addData("Right Motor RelPos [tick]", "%d ticks", motorRightRelativePosition);
         telemetry.addData("Left Motor RelPos [inch]", "%f in", motorLeftRelativePosition / Constants.ENCODER_TICKS_PER_REV * Constants.OMNIWHEEL_LARGE_CIRCUMFERENCE_IN);
         telemetry.addData("Right Motor RelPos [inch]", "%f in", motorRightRelativePosition / Constants.ENCODER_TICKS_PER_REV * Constants.OMNIWHEEL_LARGE_CIRCUMFERENCE_IN);
-    }
-
-    /*
-     * Code to run ONCE after the driver hits STOP
-     */
-    @Override
-    public void stop() {
-        telemetry.addData("Status", "Stopped");
-
-        motorLeft.setPower(0);
-        motorRight.setPower(0);
-        motorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 }
