@@ -22,13 +22,14 @@ public class MasterOpMode extends OpMode {
         runtime.reset();
         robot.start();
         telemetry.addData("Status", "Initializing");
+        telemetry.addData("Runtime", "%f", runtime.seconds());
         or_init();
     }
 
     @Override
     public void init_loop() {
-        runtime.reset();
         telemetry.addData("Status", "Preparatory");
+        telemetry.addData("Runtime", "%f", runtime.seconds());
         loopInitPre();
         or_loopInit();
         loopInitPost();
@@ -48,13 +49,14 @@ public class MasterOpMode extends OpMode {
     public void start() {
         runtime.reset();
         telemetry.addData("Status", "Starting");
+        telemetry.addData("Runtime", "%f", runtime.seconds());
         or_start();
     }
 
     @Override
     public void loop() {
-        runtime.reset();
         telemetry.addData("Status", "Running");
+        telemetry.addData("Runtime", "%f", runtime.seconds());
         loopPre();
         or_loop();
         loopPost();
@@ -75,6 +77,7 @@ public class MasterOpMode extends OpMode {
         runtime.reset();
         robot.stop();
         telemetry.addData("Status", "Stopped");
+        telemetry.addData("Runtime", "%f", runtime.seconds());
         or_stop();
     }
 
