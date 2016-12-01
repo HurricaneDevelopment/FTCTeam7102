@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.robots.configurations;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 
 import org.firstinspires.ftc.teamcode.exceptions.UnfoundHardwareException;
 import org.firstinspires.ftc.teamcode.hardware.DcMotorW;
@@ -20,6 +21,8 @@ public class RobotTankDriveBeacon extends Robot {
     public ServoW beaconSwitcher;
 
     public AdaFruitColorSensor colorSensor;
+    public UltrasonicSensor ultraOmni;
+    public UltrasonicSensor ultraStealth;
 
     public int rightDriveRelativePosition;
     public int rightDriveBasePosition;
@@ -34,6 +37,8 @@ public class RobotTankDriveBeacon extends Robot {
         } catch (UnfoundHardwareException ex) {
             colorSensor = null;
         }
+        ultraOmni = hwmap.ultrasonicSensor.get("uOmni");
+        ultraStealth = hwmap.ultrasonicSensor.get("uStealth");
     }
 
     @Override
