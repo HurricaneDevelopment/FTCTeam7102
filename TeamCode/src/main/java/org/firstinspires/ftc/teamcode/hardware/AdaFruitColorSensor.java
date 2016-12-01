@@ -60,4 +60,16 @@ public class AdaFruitColorSensor {
     public int blue() {
         return sensorRGB.blue();
     }
+
+    public boolean isBeaconBlue() {
+        if (red() - blue() < -100)
+            return true;
+        return false;
+    }
+
+    public boolean isBeaconRed() {
+        if (red() - blue() > 100)
+            return true;
+        return false;
+    }
 }
