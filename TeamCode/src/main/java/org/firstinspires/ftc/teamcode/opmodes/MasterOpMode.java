@@ -11,7 +11,15 @@ import org.firstinspires.ftc.teamcode.robots.Motors;
 import org.firstinspires.ftc.teamcode.robots.Robot;
 
 import java.util.List;
+/*
+Debugger Breaker
 
+while (runtime.seconds() < 5) {
+    telemetry.addData("status","break");
+    telemetry.update();
+}
+
+ */
 public abstract class MasterOpMode extends OpMode {
 
     public static final int SCREEN_FREEZE_TIME = 5;

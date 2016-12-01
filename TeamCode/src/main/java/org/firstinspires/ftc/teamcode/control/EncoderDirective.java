@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.control;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.TetrixConstants;
+import org.firstinspires.ftc.teamcode.robots.TetrixConstants;
 import org.firstinspires.ftc.teamcode.exceptions.UnfoundHardwareException;
 import org.firstinspires.ftc.teamcode.hardware.DcMotorW;
 
