@@ -148,15 +148,35 @@ public class Dec2 extends MasterOpMode {
                 @Override
                 public void run() {
                     // Drive  BACKWARD until one light sensor hits the line
-
+                    do {
+                        robot.rightDrive.motor.setPower(-0.5);
+                        robot.leftDrive.motor.setPower(-0.5);
+                    }while(robot.bsLightSensor.getLightDetected() != 0.5 || robot.nbsLightSensor.getLightDetected() != 0.5);
                     // Then Line up the other side
+
+                    if(robot.bsLightSensor.getLightDetected() == 0.5)
+                    {
+                        while (robot.nbsLightSensor.getLightDetected() != 0.5)
+                            robot.leftDrive.motor.setPower(0.25);
+                    }
+                    else
+                    {
+                        while(robot.bsLightSensor.getLightDetected() == 0.5)
+                            robot.rightDrive.motor.setPower(0.25);
+                    }
                 }
+
             });
 
             instructions.add(new Instruction() {
                 @Override
                 public void run() {
-                    // Check color, Move the robot, hit the beacon
+                    // Check color, hit the beacon
+                    robot.beaconSwitcher.goHome();
+                    if(robot.colorSensor.isBeaconBlue())
+                        robot.beaconSwitcher.increment(0.25);
+                    else
+                        robot.beaconSwitcher.increment(-0.25);
                 }
             });
 
