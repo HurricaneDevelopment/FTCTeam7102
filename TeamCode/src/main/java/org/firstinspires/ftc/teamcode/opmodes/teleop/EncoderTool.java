@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes.teleop;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.control.EncoderInstructionSet;
@@ -12,7 +13,8 @@ import org.firstinspires.ftc.teamcode.util.Converter;
 /**
  * Created by vivek on 11/28/2016.
  */
-@TeleOp(name="EncoderTool", group="Tools")
+@TeleOp(name="Encoder Tool", group="Tools")
+@Disabled
 public class EncoderTool extends MasterOpMode {
 
     public RobotEncodedTankDrive robot;

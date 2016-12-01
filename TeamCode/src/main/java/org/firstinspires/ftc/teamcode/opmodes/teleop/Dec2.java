@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes.teleop;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.control.EncoderInstructionSet;
@@ -13,7 +14,8 @@ import org.firstinspires.ftc.teamcode.util.Converter;
 /**
  * Created by Spencer on 11/30/2016.
  */
-@TeleOp(name="Dec2", group="Competitions")
+@TeleOp(name="Dec2 TeleOp", group="Competition")
+@Disabled
 public class Dec2 extends MasterOpMode {
 
     public RobotTankDriveBeacon robot;

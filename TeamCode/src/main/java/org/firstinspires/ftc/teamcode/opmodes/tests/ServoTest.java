@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -9,7 +10,8 @@ import com.qualcomm.robotcore.util.Range;
  * Created by vivek on 11/17/2016.
  */
 
-@TeleOp(name="ServoTest", group="7102 Tests")
+@TeleOp(name="ServoTool", group="Tools")
+@Disabled
 public class ServoTest extends LinearOpMode {
 
     private static final double SERVO_DEGREES = 200.0;

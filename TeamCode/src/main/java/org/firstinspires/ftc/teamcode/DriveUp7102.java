@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -9,6 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Created by vivek on 11/12/2016.
  */
 @Autonomous(name="Get to the Freaking Ball", group="K9bot")
+@Disabled
 public class DriveUp7102 extends LinearOpMode{
     Hardware7102 robot = new Hardware7102();
     static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder

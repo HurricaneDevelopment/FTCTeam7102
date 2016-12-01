@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.LightSensor;
@@ -8,8 +9,8 @@ import com.qualcomm.robotcore.hardware.LightSensor;
 /**
  * Created by vivek on 11/22/2016.
  */
-@Autonomous(name="LightTest", group="7102 Tests")
-
+@Autonomous(name="Light Tool", group="Tools")
+@Disabled
 public class LightTest extends LinearOpMode{
     private LightSensor ls;
 
