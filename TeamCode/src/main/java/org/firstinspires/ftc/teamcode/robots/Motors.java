@@ -19,7 +19,7 @@ public class Motors {
 
     public void loadHardware(HardwareMap hwmap) {
         List<DcMotorImpl> devices = hwmap.getAll(DcMotorImpl.class);
-        for(DcMotorImpl device : devices)
+        for (DcMotorImpl device : devices)
             Motors.put(hwmap.getNamesOf(device).iterator().next(),new DcMotorW(device));
     }
 

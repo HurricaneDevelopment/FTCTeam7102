@@ -37,7 +37,7 @@ public class RobotEncodedTankDrive extends Robot {
     public void reverseDrive() {
         DcMotorW temp = leftDrive;
         leftDrive = rightDrive;
-        rightDrive = leftDrive;
+        rightDrive = temp;
 
         leftDrive.motor.setDirection((leftDrive.motor.getDirection() == DcMotor.Direction.FORWARD ? (DcMotor.Direction.REVERSE) : (DcMotor.Direction.FORWARD)));
         rightDrive.motor.setDirection((rightDrive.motor.getDirection() == DcMotor.Direction.FORWARD ? (DcMotor.Direction.REVERSE) : (DcMotor.Direction.FORWARD)));

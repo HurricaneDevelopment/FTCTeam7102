@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.robots;
 
 public class TetrixConstants {
     public static final double ENCODER_TICKS_PER_REV = 1440;

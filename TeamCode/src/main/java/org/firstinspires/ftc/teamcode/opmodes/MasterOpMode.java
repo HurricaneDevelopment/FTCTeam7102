@@ -12,7 +12,9 @@ import org.firstinspires.ftc.teamcode.robots.Robot;
 
 import java.util.List;
 
-public class MasterOpMode extends OpMode {
+public abstract class MasterOpMode extends OpMode {
+
+    public static final int SCREEN_FREEZE_TIME = 5;
     
     public Robot robotI;
 
@@ -37,33 +39,22 @@ public class MasterOpMode extends OpMode {
         runtime.reset();
         telemetry.addData("Status", "Initializing");
         telemetry.addData("Runtime", "%f", runtime.seconds());
-        or_init();
+
+        setup();
+
+        robotI.loadHardware(hardwareMap);
+
         try {
             robotI.start();
         } catch (UnfoundHardwareException ex) {
-            //telemetry.clearAll();
-            telemetry.addData("Error",ex.getMessage());
-            telemetry.update();
-
-            Motors motos = new Motors();
-            List<DcMotorImpl> devices = hardwareMap.getAll(DcMotorImpl.class);
-            telemetry.addData("Devices",devices);
-
-            for(DcMotorImpl device : devices) {
-                telemetry.addData(hardwareMap.getNamesOf(device).iterator().next(),new DcMotorW(device));
-                motos.Motors.put(hardwareMap.getNamesOf(device).iterator().next(),new DcMotorW(device));
-            }
-            telemetry.update();
-            while (runtime.seconds() < 5) {
-                //telemetry.addData("Error",ex.getMessage());
-                //telemetry.addData("Motors",robotI.motors.toString());
-                //telemetry.addData("All Hardware",hardwareMap.getNamesOf(hardwareMap.getAll(DcMotor.class).get(0)).iterator().next());
-                //telemetry.update();
-                List<DcMotorImpl> devi = hardwareMap.getAll(DcMotorImpl.class);
-                telemetry.addData("Devices",devi);
+            while (runtime.seconds() < SCREEN_FREEZE_TIME) {
+                telemetry.addData("Error", ex.getMessage());
+                telemetry.update();
             }
             requestOpModeStop();
         }
+
+        or_init();
     }
 
     @Override
@@ -120,6 +111,8 @@ public class MasterOpMode extends OpMode {
         telemetry.addData("Runtime", "%f", runtime.seconds());
         or_stop();
     }
+
+    public abstract void setup();
 
     public void or_init() {
 
