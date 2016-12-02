@@ -4,7 +4,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.LightSensor;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.control.Instruction;
 import org.firstinspires.ftc.teamcode.exceptions.UnfoundHardwareException;
 import org.firstinspires.ftc.teamcode.hardware.DcMotorW;
@@ -36,6 +38,13 @@ public class RobotTankDriveBeacon extends Robot {
     public int rightDriveBasePosition;
     public int leftDriveRelativePosition;
     public int leftDriveBasePosition;
+
+    public boolean reversed;
+
+    public RobotTankDriveBeacon() {
+        super();
+        reversed = false;
+    }
 
     public void loadHardware(HardwareMap hwmap) {
         super.loadHardware(hwmap);
@@ -87,6 +96,8 @@ public class RobotTankDriveBeacon extends Robot {
 
         leftDrive.motor.setDirection((leftDrive.motor.getDirection() == DcMotor.Direction.FORWARD ? (DcMotor.Direction.REVERSE) : (DcMotor.Direction.FORWARD)));
         rightDrive.motor.setDirection((rightDrive.motor.getDirection() == DcMotor.Direction.FORWARD ? (DcMotor.Direction.REVERSE) : (DcMotor.Direction.FORWARD)));
+
+        reversed = !reversed;
     }
 
     public double ultrasonicToInches(double ultraVal) {
@@ -106,10 +117,16 @@ public class RobotTankDriveBeacon extends Robot {
 
                 while (stealthInch != omniInch) {
                     if (omniInch > stealthInch)
-                        leftDrive.motor.setPower(-0.25);
+                        if (reversed)
+                            leftDrive.motor.setPower(-0.25);
+                        else
+                            rightDrive.motor.setPower(0.25);
 
                     if (omniInch < stealthInch)
-                        leftDrive.motor.setPower(0.25);
+                        if (reversed)
+                            leftDrive.motor.setPower(0.25);
+                        else
+                            rightDrive.motor.setPower(-0.25);
 
                     stealthInch = ultrasonicToInches(ultraStealth.getUltrasonicLevel());
                     omniInch = ultrasonicToInches(ultraOmni.getUltrasonicLevel());
@@ -119,5 +136,16 @@ public class RobotTankDriveBeacon extends Robot {
                 rightDrive.motor.setPower(0);
             }
         };
+    }
+
+    public void debugTelem(Telemetry telem) {
+        ElapsedTime t = new ElapsedTime();
+        while (t.seconds() < 5) {
+            telem.addData("uOmni",ultraOmni == null);
+            telem.addData("uOmni",ultraStealth == null);
+            telem.addData("uOmni",bsLightSensor == null);
+            telem.addData("uOmni",nbsLightSensor == null);
+            telem.update();
+        }
     }
 }

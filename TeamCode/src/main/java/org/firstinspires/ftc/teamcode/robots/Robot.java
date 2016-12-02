@@ -2,7 +2,9 @@ package org.firstinspires.ftc.teamcode.robots;
 
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.exceptions.UnfoundHardwareException;
 import org.firstinspires.ftc.teamcode.hardware.ServoW;
 
@@ -53,5 +55,9 @@ public abstract class Robot {
         for (String line : toStringList())
             op += line + "\n";
         return op;
+    }
+
+    public void debugTelem(Telemetry telem) {
+
     }
 }

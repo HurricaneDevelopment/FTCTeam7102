@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeRegistrar;
 
+import org.firstinspires.ftc.teamcode.opmodes.autonomous.Dec2Red;
 import org.firstinspires.ftc.teamcode.opmodes.teleop.EncoderTool;
 import org.firstinspires.ftc.teamcode.opmodes.tests.UltrasonicTest;
 
@@ -19,5 +20,6 @@ public class CustomOpModeRegistrar {
     public static void registerOpModes(OpModeManager manager) {
         manager.register("Encoder Tool", EncoderTool.class);
         manager.register("Ultrasonic Test", UltrasonicTest.class);
+        manager.register("Dec2 Red", Dec2Red.class);
     }
 }

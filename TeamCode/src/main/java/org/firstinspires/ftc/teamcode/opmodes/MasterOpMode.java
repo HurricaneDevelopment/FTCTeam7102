@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotorImpl;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.control.GamepadHelper;
 import org.firstinspires.ftc.teamcode.exceptions.UnfoundHardwareException;
 import org.firstinspires.ftc.teamcode.hardware.DcMotorW;
@@ -51,6 +52,7 @@ public abstract class MasterOpMode extends OpMode {
         setup();
 
         robotI.loadHardware(hardwareMap);
+        robotI.debugTelem(telemetry);
 
         try {
             robotI.start();
@@ -124,22 +126,21 @@ public abstract class MasterOpMode extends OpMode {
 
     public void or_init() {
 
-    };
+    }
 
     public void or_loopInit() {
 
-    };
+    }
 
     public void or_start() {
 
-    };
+    }
 
     public void or_loop() {
 
-    };
+    }
 
     public void or_stop() {
 
-    };
-
+    }
 }

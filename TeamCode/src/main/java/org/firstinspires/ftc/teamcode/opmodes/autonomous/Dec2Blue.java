@@ -19,7 +19,7 @@ import java.util.ArrayList;
 //For Blue Side
 @Autonomous(name="Dec2 TeleOp", group="Competition")
 @Disabled
-public class Dec2 extends MasterOpMode {
+public class Dec2Blue extends MasterOpMode {
 
     public RobotTankDriveBeacon robot;
 
