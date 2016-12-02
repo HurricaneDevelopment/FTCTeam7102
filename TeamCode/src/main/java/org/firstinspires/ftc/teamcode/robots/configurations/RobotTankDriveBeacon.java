@@ -84,4 +84,36 @@ public class RobotTankDriveBeacon extends Robot {
         leftDrive.motor.setDirection((leftDrive.motor.getDirection() == DcMotor.Direction.FORWARD ? (DcMotor.Direction.REVERSE) : (DcMotor.Direction.FORWARD)));
         rightDrive.motor.setDirection((rightDrive.motor.getDirection() == DcMotor.Direction.FORWARD ? (DcMotor.Direction.REVERSE) : (DcMotor.Direction.FORWARD)));
     }
+
+    public double ultrasonicToInches(double ultraVal) {
+        double inches = 0.4301 * ultraVal - 2.1553;
+
+        BigDecimal bd = new BigDecimal(inches);
+        bd = bd.setScale(2, RoundingMode.HALF_UP);
+        return bd.doubleValue();
+    }
+
+    public Instruction ultraParallel() {
+            return new Instruction() {
+                @Override
+                public void run() {
+                    double stealthInch = ultrasonicToInches(ultraStealth.getUltrasonicLevel());
+                    double omniInch = ultrasonicToInches(ultraOmni.getUltrasonicLevel());
+
+                    while (stealthInch != omniInch)
+                    {
+                        if (omniInch > stealthInch)
+                            leftDrive.motor.setPower(-0.25);
+
+                        if (omniInch < stealthInch)
+                            leftDrive.motor.setPower(0.25);
+
+                        stealthInch = ultrasonicToInches(ultraStealth.getUltrasonicLevel());
+                        omniInch = ultrasonicToInches(ultraOmni.getUltrasonicLevel());
+                    }
+
+                    leftDrive.motor.setPower(0);
+                    rightDrive.motor.setPower(0);
+                }
+    }
 }

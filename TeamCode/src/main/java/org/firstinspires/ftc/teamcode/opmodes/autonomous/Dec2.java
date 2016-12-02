@@ -59,79 +59,104 @@ public class Dec2 extends MasterOpMode {
             instructions.add(moveToBeacons);
             instructions.add(new WaitInstruction(750));
 
-            instructions.add(new Instruction() {
-                @Override
-                public void run() {
-                    //Run Alistairs Straightening Algorithm
-                    double z = 3.5;
-                    while (robot.ultraStealth.getUltrasonicLevel() != robot.ultraOmni.getUltrasonicLevel())
-                    {
-                        if (robot.ultraOmni.getUltrasonicLevel() > robot.ultraStealth.getUltrasonicLevel())
-                            robot.leftDrive.motor.setPower(0.25);
-
-                        if (robot.ultraOmni.getUltrasonicLevel() < robot.ultraStealth.getUltrasonicLevel())
-                            robot.rightDrive.motor.setPower(0.25);
-                    }
-
-                }
-            });
+            //Run Alistairs Straightening Algorithm
+            instructions.add(robot.ultraParallel());
 
             instructions.add(new Instruction() {
                 @Override
                 public void run() {
                     double z = 3.5;
-                    do {
-                            if (0.4301*(robot.ultraStealth.getUltrasonicLevel())-2.1553 > z)
-                                try {
-                                    robot.leftDrive.createEncoderInstruction(0.5, 2, 5);
-                                } catch (UnfoundHardwareException ex) {
-                                    runtime.reset();
-                                    while (runtime.seconds() < SCREEN_FREEZE_TIME) {
-                                        telemetry.addData("Error", ex.getMessage());
-                                        telemetry.update();
-                                    }
-                                    requestOpModeStop();
-                                }
 
-                            if (0.4301*(robot.ultraStealth.getUltrasonicLevel())-2.1553 < z)
-                                try {
-                                    robot.leftDrive.createEncoderInstruction(-0.5, 2, 5);
-                                } catch (UnfoundHardwareException ex) {
-                                    runtime.reset();
-                                    while (runtime.seconds() < SCREEN_FREEZE_TIME) {
-                                        telemetry.addData("Error", ex.getMessage());
-                                        telemetry.update();
-                                    }
-                                    requestOpModeStop();
-                                }
-                        } while (0.4301*(robot.ultraStealth.getUltrasonicLevel())-2.1553 != z);
+                    double stealthInch = robot.ultrasonicToInches(robot.ultraStealth.getUltrasonicLevel());
+                    double omniInch = robot.ultrasonicToInches(robot.ultraOmni.getUltrasonicLevel());
+
+                    if (stealthInch > z)
+                        try {
+                            EncoderInstructionSet slightTurn = new EncoderInstructionSet();
+                            slightTurn.add(robot.leftDrive.createEncoderInstruction(0.5, 3, 5));
+                            slightTurn.run();
+
+                            while (stealthInch > 3.8 || stealthInch < 3.2 ) {
+                                robot.leftDrive.motor.setPower(0.25);
+                                robot.rightDrive.motor.setPower(0.25);
+
+                                stealthInch = robot.ultrasonicToInches(robot.ultraStealth.getUltrasonicLevel());
+                                omniInch = robot.ultrasonicToInches(robot.ultraOmni.getUltrasonicLevel());
+                            }
+
+                            leftDrive.motor.setPower(0);
+                            rightDrive.motor.setPower(0);
+                        } catch (UnfoundHardwareException ex) {
+                            runtime.reset();
+                            while (runtime.seconds() < SCREEN_FREEZE_TIME) {
+                                telemetry.addData("Error", ex.getMessage());
+                                telemetry.update();
+                            }
+                            requestOpModeStop();
+                        }
+
+                    if (stealthInch < z)
+                        try {
+                            EncoderInstructionSet slightTurn = new EncoderInstructionSet();
+                            slightTurn.add(robot.leftDrive.createEncoderInstruction(0.5, 3, 5));
+                            slightTurn.run();
+
+                            while (stealthInch > 3.8 || stealthInch < 3.2 ) {
+                                robot.leftDrive.motor.setPower(-0.25);
+                                robot.rightDrive.motor.setPower(-0.25);
+
+                                stealthInch = robot.ultrasonicToInches(robot.ultraStealth.getUltrasonicLevel());
+                                omniInch = robot.ultrasonicToInches(robot.ultraOmni.getUltrasonicLevel());
+                            }
+
+                            leftDrive.motor.setPower(0);
+                            rightDrive.motor.setPower(0);
+                        } catch (UnfoundHardwareException ex) {
+                            runtime.reset();
+                            while (runtime.seconds() < SCREEN_FREEZE_TIME) {
+                                telemetry.addData("Error", ex.getMessage());
+                                telemetry.update();
+                            }
+                            requestOpModeStop();
+                        }
                     }
-
             });
+
+            instructions.add(robot.ultraParallel());
 
             instructions.add(new Instruction() {
                 @Override
                 public void run() {
                     // Drive until one light sensor hits the line
-                    do {
-                        robot.rightDrive.motor.setPower(0.5);
-                        robot.leftDrive.motor.setPower(0.5);
-                    }while(robot.bsLightSensor.getLightDetected() != 0.5 || robot.nbsLightSensor.getLightDetected() != 0.5);
-                    // Then Line up the other side
+                    while(robot.bsLightSensor.getLightDetected() <= FieldConstants.LIGHT_REFLECTION_15MM_MAT_MAX || robot.nbsLightSensor.getLightDetected() <= FieldConstants.LIGHT_REFLECTION_15MM_MAT_MAX) {
+                        runtime.reset();
+                        while (runtime.seconds() <  3) {
+                            robot.rightDrive.motor.setPower(0.5);
+                            robot.leftDrive.motor.setPower(0.5);
+                        }
 
-                    if(robot.bsLightSensor.getLightDetected() == 0.5)
+                        leftDrive.motor.setPower(0);
+                        rightDrive.motor.setPower(0);
+
+                        robot.ultraParallel().run();
+                    }
+
+                    if (robot.bsLightSensor.getLightDetected() > FieldConstants.LIGHT_REFLECTION_15MM_MAT_MAX)
                     {
-                        while (robot.nbsLightSensor.getLightDetected() != 0.5)
-                        robot.leftDrive.motor.setPower(0.25);
+                        while (robot.nbsLightSensor.getLightDetected() <= FieldConstants.LIGHT_REFLECTION_15MM_MAT_MAX) 
+                            robot.leftDrive.motor.setPower(0.25);
                     }
                     else
                     {
-                        while(robot.bsLightSensor.getLightDetected() == 0.5)
+                        while(robot.bsLightSensor.getLightDetected() <= FieldConstants.LIGHT_REFLECTION_15MM_MAT_MAX)
                             robot.rightDrive.motor.setPower(0.25);
                     }
+                    
+                    leftDrive.motor.setPower(0);
+                    rightDrive.motor.setPower(0);
                 }
             });
-
+/*
             instructions.add(new Instruction() {
                 @Override
                 public void run() {
@@ -179,6 +204,7 @@ public class Dec2 extends MasterOpMode {
                         robot.beaconSwitcher.increment(-0.25);
                 }
             });
+            */
 
 
 
