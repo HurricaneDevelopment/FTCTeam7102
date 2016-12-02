@@ -37,94 +37,31 @@ public class Dec2Blue extends MasterOpMode {
     @Override
     public void or_start() {
         robot.reverseDrive();
-
+/*
         try {
+            EncoderInstructionSet encStruct = new EncoderInstructionSet();
+            encStruct.add(robot.leftDrive.createEncoderInstruction(0.5, 10, 5));
+            encStruct.add(robot.rightDrive.createEncoderInstruction(0.5, 10, 5));
+            encStruct.run();
+            robot.wait(750);
 
-            ArrayList<Instruction> instructions = new ArrayList<Instruction>();
+            encStruct = new EncoderInstructionSet();
+            encStruct.add(robot.leftDrive.createEncoderInstruction(0.5, -7, 5));
+            encStruct.add(robot.rightDrive.createEncoderInstruction(0.5, 7, 5));
+            encStruct.run();
+            robot.wait(750);
 
-            EncoderInstructionSet moveFromWall = new EncoderInstructionSet();
-            moveFromWall.add(robot.leftDrive.createEncoderInstruction(0.5, 10, 5));
-            moveFromWall.add(robot.rightDrive.createEncoderInstruction(0.5, 10, 5));
-            instructions.add(moveFromWall);
-            instructions.add(new WaitInstruction(750));
+            encStruct = new EncoderInstructionSet();
+            encStruct.add(robot.leftDrive.createEncoderInstruction(0.5, 25, 5));
+            encStruct.add(robot.rightDrive.createEncoderInstruction(0.5, 25, 5));
+            encStruct.run();
+            robot.wait(750);
 
-            EncoderInstructionSet turnToBeacons = new EncoderInstructionSet();
-            turnToBeacons.add(robot.leftDrive.createEncoderInstruction(0.5, 7, 5));
-            turnToBeacons.add(robot.rightDrive.createEncoderInstruction(0.5, -7, 5));
-            instructions.add(turnToBeacons);
-            instructions.add(new WaitInstruction(750));
+            robot.ultraParallel();
+            robot.goToDistance(3, 4);
+            robot.ultraParallel();
 
-            EncoderInstructionSet moveToBeacons = new EncoderInstructionSet();
-            moveToBeacons.add(robot.leftDrive.createEncoderInstruction(0.5, 25, 5));
-            moveToBeacons.add(robot.rightDrive.createEncoderInstruction(0.5, 25, 5));
-            instructions.add(moveToBeacons);
-            instructions.add(new WaitInstruction(750));
-
-            //Run Alistairs Straightening Algorithm
-            instructions.add(robot.ultraParallel());
-
-            instructions.add(new Instruction() {
-                @Override
-                public void run() {
-                    double z = 3.5;
-
-                    double stealthInch = robot.ultrasonicToInches(robot.ultraStealth.getUltrasonicLevel());
-                    double omniInch = robot.ultrasonicToInches(robot.ultraOmni.getUltrasonicLevel());
-
-                    if (stealthInch > z)
-                        try {
-                            EncoderInstructionSet slightTurn = new EncoderInstructionSet();
-                            slightTurn.add(robot.leftDrive.createEncoderInstruction(0.5, 3, 5));
-                            slightTurn.run();
-
-                            while (stealthInch > 3.8 || stealthInch < 3.2 ) {
-                                robot.leftDrive.motor.setPower(0.25);
-                                robot.rightDrive.motor.setPower(0.25);
-
-                                stealthInch = robot.ultrasonicToInches(robot.ultraStealth.getUltrasonicLevel());
-                                omniInch = robot.ultrasonicToInches(robot.ultraOmni.getUltrasonicLevel());
-                            }
-
-                            robot.leftDrive.motor.setPower(0);
-                            robot.rightDrive.motor.setPower(0);
-                        } catch (UnfoundHardwareException ex) {
-                            runtime.reset();
-                            while (runtime.seconds() < SCREEN_FREEZE_TIME) {
-                                telemetry.addData("Error", ex.getMessage());
-                                telemetry.update();
-                            }
-                            requestOpModeStop();
-                        }
-
-                    if (stealthInch < z)
-                        try {
-                            EncoderInstructionSet slightTurn = new EncoderInstructionSet();
-                            slightTurn.add(robot.leftDrive.createEncoderInstruction(0.5, 3, 5));
-                            slightTurn.run();
-
-                            while (stealthInch > 3.8 || stealthInch < 3.2 ) {
-                                robot.leftDrive.motor.setPower(-0.25);
-                                robot.rightDrive.motor.setPower(-0.25);
-
-                                stealthInch = robot.ultrasonicToInches(robot.ultraStealth.getUltrasonicLevel());
-                                omniInch = robot.ultrasonicToInches(robot.ultraOmni.getUltrasonicLevel());
-                            }
-
-                            robot.leftDrive.motor.setPower(0);
-                            robot.rightDrive.motor.setPower(0);
-                        } catch (UnfoundHardwareException ex) {
-                            runtime.reset();
-                            while (runtime.seconds() < SCREEN_FREEZE_TIME) {
-                                telemetry.addData("Error", ex.getMessage());
-                                telemetry.update();
-                            }
-                            requestOpModeStop();
-                        }
-                    }
-            });
-
-            instructions.add(robot.ultraParallel());
-
+            /*
             instructions.add(new Instruction() {
                 @Override
                 public void run() {
@@ -206,14 +143,14 @@ public class Dec2Blue extends MasterOpMode {
                 }
             });
             */
-
-
-
-            for (Instruction inst : instructions)
-                inst.run();
-
+    /*
         } catch (UnfoundHardwareException ex) {
-
-        }
+            runtime.reset();
+            while (runtime.seconds() < SCREEN_FREEZE_TIME) {
+                telemetry.addData("Error", ex.getMessage());
+                telemetry.update();
+            }
+            requestOpModeStop();
+        }*/
     }
 }

@@ -22,31 +22,10 @@ public class EncoderTool extends MasterOpMode {
     private int savedLeftTicks;
     private int savedRightTicks;
 
-    private void autonomous() throws UnfoundHardwareException {
-        EncoderInstructionSet encoderInst = new EncoderInstructionSet();
-        encoderInst.add(robot.leftDrive.createEncoderInstruction(0.5,10,5));
-        encoderInst.add(robot.rightDrive.createEncoderInstruction(0.5,10,5));
-        encoderInst.run();
-    }
-
     @Override
     public void setup() {
         setRobot(new RobotEncodedTankDrive());
         robot = (RobotEncodedTankDrive) robotI;
-    }
-
-
-    @Override
-    public void or_start() {
-        try {
-            autonomous();
-        } catch (UnfoundHardwareException ex) {
-            while (runtime.seconds() < SCREEN_FREEZE_TIME) {
-                telemetry.addData("Error", ex.getMessage());
-                telemetry.update();
-            }
-            requestOpModeStop();
-        }
     }
 
     @Override

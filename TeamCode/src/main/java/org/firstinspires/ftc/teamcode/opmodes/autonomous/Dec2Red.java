@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.VelocityVortex.FieldConstants;
 import org.firstinspires.ftc.teamcode.control.EncoderInstructionSet;
@@ -27,7 +28,6 @@ public class Dec2Red extends MasterOpMode {
     public void setup() {
         setRobot(new RobotTankDriveBeacon());
         robot = (RobotTankDriveBeacon) robotI;
-        robot.reverseDrive();
     }
 
     @Override
@@ -37,108 +37,34 @@ public class Dec2Red extends MasterOpMode {
 
     @Override
     public void or_start() {
+        /*
+    }
         try {
 
-            ArrayList<Instruction> instructions = new ArrayList<Instruction>();
+            EncoderInstructionSet encStruct = new EncoderInstructionSet();
+            encStruct.add(robot.leftDrive.createEncoderInstruction(0.5, 5, 5));
+            encStruct.add(robot.rightDrive.createEncoderInstruction(0.5, 5, 5));
+            encStruct.run();
+            robot.pause(1500);
 
-            EncoderInstructionSet moveFromWall = new EncoderInstructionSet();
-            moveFromWall.add(robot.leftDrive.createEncoderInstruction(0.5, 10, 5));
-            moveFromWall.add(robot.rightDrive.createEncoderInstruction(0.5, 10, 5));
-            instructions.add(moveFromWall);
-            instructions.add(new WaitInstruction(750));
+            encStruct = new EncoderInstructionSet();
+            encStruct.add(robot.leftDrive.createEncoderInstruction(0.5, -2, 5));
+            encStruct.add(robot.rightDrive.createEncoderInstruction(0.5, 2, 5));
+            encStruct.run();
+            robot.pause(1500);
 
-            EncoderInstructionSet turnToBeacons = new EncoderInstructionSet();
-            turnToBeacons.add(robot.leftDrive.createEncoderInstruction(0.5, 7, 5));
-            turnToBeacons.add(robot.rightDrive.createEncoderInstruction(0.5, -7, 5));
-            instructions.add(turnToBeacons);
-            instructions.add(new WaitInstruction(750));
+            encStruct = new EncoderInstructionSet();
+            encStruct.add(robot.leftDrive.createEncoderInstruction(0.5, -2, 5));
+            encStruct.add(robot.rightDrive.createEncoderInstruction(0.5, -2, 5));
+            encStruct.run();
+            robot.pause(1500);
 
-            EncoderInstructionSet moveToBeacons = new EncoderInstructionSet();
-            moveToBeacons.add(robot.leftDrive.createEncoderInstruction(0.5, 25, 5));
-            moveToBeacons.add(robot.rightDrive.createEncoderInstruction(0.5, 25, 5));
-            instructions.add(moveToBeacons);
-            instructions.add(new WaitInstruction(750));
+            robot.ultraParallel();
+            robot.goToDistance(3, 4);
+            robot.ultraParallel();
 
-            //Run Alistairs Straightening Algorithm
-            instructions.add(robot.ultraParallel());
 
-            instructions.add(new Instruction() {
-                @Override
-                public void run() {
-                    double z = 3.5;
 
-                    double stealthInch = robot.ultrasonicToInches(robot.ultraStealth.getUltrasonicLevel());
-                    double omniInch = robot.ultrasonicToInches(robot.ultraOmni.getUltrasonicLevel());
-
-                    if (stealthInch > z)
-                        try {
-                            EncoderInstructionSet slightTurn = new EncoderInstructionSet();
-                            if (robot.reversed)
-                                slightTurn.add(robot.leftDrive.createEncoderInstruction(0.5, 3, 5));
-                            else
-                                slightTurn.add(robot.rightDrive.createEncoderInstruction(0.5, -3, 5));
-                            slightTurn.run();
-
-                            while (stealthInch > 3.8 || stealthInch < 3.2 ) {
-                                if (robot.reversed) {
-                                    robot.leftDrive.motor.setPower(0.25);
-                                    robot.rightDrive.motor.setPower(0.25);
-                                } else {
-                                    robot.leftDrive.motor.setPower(-0.25);
-                                    robot.rightDrive.motor.setPower(-0.25);
-                                }
-
-                                stealthInch = robot.ultrasonicToInches(robot.ultraStealth.getUltrasonicLevel());
-                                omniInch = robot.ultrasonicToInches(robot.ultraOmni.getUltrasonicLevel());
-                            }
-
-                            robot.leftDrive.motor.setPower(0);
-                            robot.rightDrive.motor.setPower(0);
-                        } catch (UnfoundHardwareException ex) {
-                            runtime.reset();
-                            while (runtime.seconds() < SCREEN_FREEZE_TIME) {
-                                telemetry.addData("Error", ex.getMessage());
-                                telemetry.update();
-                            }
-                            requestOpModeStop();
-                        }
-
-                    if (stealthInch < z)
-                        try {
-                            EncoderInstructionSet slightTurn = new EncoderInstructionSet();
-                            if (robot.reversed)
-                                slightTurn.add(robot.leftDrive.createEncoderInstruction(0.5, 3, 5));
-                            else
-                                slightTurn.add(robot.rightDrive.createEncoderInstruction(0.5, -3, 5));
-                            slightTurn.run();
-
-                            while (stealthInch > 3.8 || stealthInch < 3.2 ) {
-                                if (robot.reversed) {
-                                    robot.leftDrive.motor.setPower(-0.25);
-                                    robot.rightDrive.motor.setPower(-0.25);
-                                } else {
-                                    robot.leftDrive.motor.setPower(0.25);
-                                    robot.rightDrive.motor.setPower(0.25);
-                                }
-
-                                stealthInch = robot.ultrasonicToInches(robot.ultraStealth.getUltrasonicLevel());
-                                omniInch = robot.ultrasonicToInches(robot.ultraOmni.getUltrasonicLevel());
-                            }
-
-                            robot.leftDrive.motor.setPower(0);
-                            robot.rightDrive.motor.setPower(0);
-                        } catch (UnfoundHardwareException ex) {
-                            runtime.reset();
-                            while (runtime.seconds() < SCREEN_FREEZE_TIME) {
-                                telemetry.addData("Error", ex.getMessage());
-                                telemetry.update();
-                            }
-                            requestOpModeStop();
-                        }
-                    }
-            });
-
-            instructions.add(robot.ultraParallel());
 /*
             instructions.add(new Instruction() {
                 @Override
@@ -224,12 +150,52 @@ public class Dec2Red extends MasterOpMode {
             */
 
 
-
+/*
             for (Instruction inst : instructions)
-                inst.run();
+                inst.run();*//*
 
         } catch (UnfoundHardwareException ex) {
+            runtime.reset();
+            while (runtime.seconds() < SCREEN_FREEZE_TIME) {
+                telemetry.addData("Error", ex.getMessage());
+                telemetry.update();
+            }
+            requestOpModeStop();
+        }*/
+    }
 
+    @Override
+    public void or_loop() {
+        try {
+
+            EncoderInstructionSet encStruct = new EncoderInstructionSet();
+            encStruct.add(robot.leftDrive.createEncoderInstruction(0.5, 5, 5));
+            encStruct.add(robot.rightDrive.createEncoderInstruction(0.5, 5, 5));
+            encStruct.run();
+            robot.pause(1500);
+
+            encStruct = new EncoderInstructionSet();
+            encStruct.add(robot.leftDrive.createEncoderInstruction(0.5, -2, 5));
+            encStruct.add(robot.rightDrive.createEncoderInstruction(0.5, 2, 5));
+            encStruct.run();
+            robot.pause(1500);
+
+            encStruct = new EncoderInstructionSet();
+            encStruct.add(robot.leftDrive.createEncoderInstruction(0.5, -2, 5));
+            encStruct.add(robot.rightDrive.createEncoderInstruction(0.5, -2, 5));
+            encStruct.run();
+            robot.pause(1500);
+
+            robot.ultraParallel();
+            robot.goToDistance(3, 4);
+            robot.ultraParallel();
+        } catch (UnfoundHardwareException ex) {
+            runtime.reset();
+            while (runtime.seconds() < SCREEN_FREEZE_TIME) {
+                telemetry.addData("Error", ex.getMessage());
+                telemetry.update();
+            }
+            requestOpModeStop();
         }
     }
 }

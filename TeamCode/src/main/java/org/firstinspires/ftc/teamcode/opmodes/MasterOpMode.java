@@ -15,7 +15,8 @@ import java.util.List;
 /*
 Debugger Breaker
 
-while (runtime.seconds() < 5) {
+ElapsedTime t = new ElapsedTime();
+while (t.seconds() < 5) {
     telemetry.addData("status","break");
     telemetry.update();
 }

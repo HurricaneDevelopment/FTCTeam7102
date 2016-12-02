@@ -57,6 +57,14 @@ public abstract class Robot {
         return op;
     }
 
+    public void pause(int delay) {
+        try {
+            Thread.sleep(delay);
+        } catch (InterruptedException ex) {
+
+        }
+    }
+
     public void debugTelem(Telemetry telem) {
 
     }
