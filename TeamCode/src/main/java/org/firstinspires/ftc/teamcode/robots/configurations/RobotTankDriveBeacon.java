@@ -5,12 +5,16 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.LightSensor;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 
+import org.firstinspires.ftc.teamcode.control.Instruction;
 import org.firstinspires.ftc.teamcode.exceptions.UnfoundHardwareException;
 import org.firstinspires.ftc.teamcode.hardware.DcMotorW;
 import org.firstinspires.ftc.teamcode.hardware.ServoW;
 
 import org.firstinspires.ftc.teamcode.robots.Robot;
 import org.firstinspires.ftc.teamcode.hardware.AdaFruitColorSensor;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * Created by Spencer on 11/30/2016.
@@ -94,26 +98,26 @@ public class RobotTankDriveBeacon extends Robot {
     }
 
     public Instruction ultraParallel() {
-            return new Instruction() {
-                @Override
-                public void run() {
-                    double stealthInch = ultrasonicToInches(ultraStealth.getUltrasonicLevel());
-                    double omniInch = ultrasonicToInches(ultraOmni.getUltrasonicLevel());
+        return new Instruction() {
+            @Override
+            public void run() {
+                double stealthInch = ultrasonicToInches(ultraStealth.getUltrasonicLevel());
+                double omniInch = ultrasonicToInches(ultraOmni.getUltrasonicLevel());
 
-                    while (stealthInch != omniInch)
-                    {
-                        if (omniInch > stealthInch)
-                            leftDrive.motor.setPower(-0.25);
+                while (stealthInch != omniInch) {
+                    if (omniInch > stealthInch)
+                        leftDrive.motor.setPower(-0.25);
 
-                        if (omniInch < stealthInch)
-                            leftDrive.motor.setPower(0.25);
+                    if (omniInch < stealthInch)
+                        leftDrive.motor.setPower(0.25);
 
-                        stealthInch = ultrasonicToInches(ultraStealth.getUltrasonicLevel());
-                        omniInch = ultrasonicToInches(ultraOmni.getUltrasonicLevel());
-                    }
-
-                    leftDrive.motor.setPower(0);
-                    rightDrive.motor.setPower(0);
+                    stealthInch = ultrasonicToInches(ultraStealth.getUltrasonicLevel());
+                    omniInch = ultrasonicToInches(ultraOmni.getUltrasonicLevel());
                 }
+
+                leftDrive.motor.setPower(0);
+                rightDrive.motor.setPower(0);
+            }
+        };
     }
 }

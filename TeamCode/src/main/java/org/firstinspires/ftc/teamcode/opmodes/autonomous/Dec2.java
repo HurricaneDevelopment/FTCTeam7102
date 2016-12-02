@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.control.WaitInstruction;
 import org.firstinspires.ftc.teamcode.exceptions.UnfoundHardwareException;
 import org.firstinspires.ftc.teamcode.opmodes.MasterOpMode;
 import org.firstinspires.ftc.teamcode.robots.configurations.RobotTankDriveBeacon;
+import org.firstinspires.ftc.teamcode.VelocityVortex.FieldConstants;
 
 import java.util.ArrayList;
 
@@ -84,8 +85,8 @@ public class Dec2 extends MasterOpMode {
                                 omniInch = robot.ultrasonicToInches(robot.ultraOmni.getUltrasonicLevel());
                             }
 
-                            leftDrive.motor.setPower(0);
-                            rightDrive.motor.setPower(0);
+                            robot.leftDrive.motor.setPower(0);
+                            robot.rightDrive.motor.setPower(0);
                         } catch (UnfoundHardwareException ex) {
                             runtime.reset();
                             while (runtime.seconds() < SCREEN_FREEZE_TIME) {
@@ -109,8 +110,8 @@ public class Dec2 extends MasterOpMode {
                                 omniInch = robot.ultrasonicToInches(robot.ultraOmni.getUltrasonicLevel());
                             }
 
-                            leftDrive.motor.setPower(0);
-                            rightDrive.motor.setPower(0);
+                            robot.leftDrive.motor.setPower(0);
+                            robot.rightDrive.motor.setPower(0);
                         } catch (UnfoundHardwareException ex) {
                             runtime.reset();
                             while (runtime.seconds() < SCREEN_FREEZE_TIME) {
@@ -135,8 +136,8 @@ public class Dec2 extends MasterOpMode {
                             robot.leftDrive.motor.setPower(0.5);
                         }
 
-                        leftDrive.motor.setPower(0);
-                        rightDrive.motor.setPower(0);
+                        robot.leftDrive.motor.setPower(0);
+                        robot.rightDrive.motor.setPower(0);
 
                         robot.ultraParallel().run();
                     }
@@ -151,9 +152,9 @@ public class Dec2 extends MasterOpMode {
                         while(robot.bsLightSensor.getLightDetected() <= FieldConstants.LIGHT_REFLECTION_15MM_MAT_MAX)
                             robot.rightDrive.motor.setPower(0.25);
                     }
-                    
-                    leftDrive.motor.setPower(0);
-                    rightDrive.motor.setPower(0);
+
+                    robot.leftDrive.motor.setPower(0);
+                    robot.rightDrive.motor.setPower(0);
                 }
             });
 /*
