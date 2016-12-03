@@ -47,27 +47,24 @@ public class Dec2RedLinear extends LinearOpMode {
             encStruct.run();
             idle();
 
-            encStruct = new EncoderInstructionSet();
-            encStruct.add(robot.rightDrive.createEncoderInstruction(1, -7, 5));
-            encStruct.run();
-            idle();
-
             robot.ultraParallel();
             idle();
-            robot.pause(1000);
+            robot.pause(100);
 
             encStruct = new EncoderInstructionSet();
-            encStruct.add(robot.leftDrive.createEncoderInstruction(1, 22, 5));
-            encStruct.add(robot.rightDrive.createEncoderInstruction(1, 22, 5));
+            encStruct.add(robot.leftDrive.createEncoderInstruction(0.75, 22, 5));
+            encStruct.add(robot.rightDrive.createEncoderInstruction(0.75, 22, 5));
             encStruct.run();
             idle();
-            robot.pause(1000);
+            robot.pause(100);
 
-            robot.goToDistance(3, 3.8);
+            robot.goToDistance(3.1, 4.0);
             idle();
-            robot.pause(1000);
+            robot.pause(100);
             robot.ultraParallel();
-            robot.pause(1000);
+            robot.pause(100);
+
+
 
             // Drive until one light sensor hits the line
             while(robot.bsLightSensor.getLightDetected() < FieldConstants.LIGHT_REFLECTION_10MM_WHITE_SECURE && robot.nbsLightSensor.getLightDetected() < FieldConstants.LIGHT_REFLECTION_15MM_WHITE_SECURE) {
@@ -76,8 +73,85 @@ public class Dec2RedLinear extends LinearOpMode {
                 boolean found = false;
 
                 while (runtime.seconds() <  3) {
-                    robot.rightDrive.motor.setPower(0.1);
-                    robot.leftDrive.motor.setPower(0.1);
+                    robot.rightDrive.motor.setPower(0.15);
+                    robot.leftDrive.motor.setPower(0.15);
+
+                    if (!(robot.bsLightSensor.getLightDetected() < FieldConstants.LIGHT_REFLECTION_10MM_WHITE_SECURE && robot.nbsLightSensor.getLightDetected() < FieldConstants.LIGHT_REFLECTION_15MM_WHITE_SECURE)) {
+                        found = true;
+                        break;
+                    }
+                }
+
+                robot.leftDrive.motor.setPower(0);
+                robot.rightDrive.motor.setPower(0);
+
+                if (found)
+                    break;
+
+                robot.ultraParallel();
+            }
+
+            robot.pause(100);
+            idle();
+
+            if (robot.bsLightSensor.getLightDetected() >= FieldConstants.LIGHT_REFLECTION_10MM_WHITE_SECURE)
+            {
+                while (robot.nbsLightSensor.getLightDetected() < FieldConstants.LIGHT_REFLECTION_15MM_WHITE_SECURE)
+                    if (robot.reversed)
+                        robot.leftDrive.motor.setPower(0.2);
+                    else
+                        robot.rightDrive.motor.setPower(0.2);
+            }
+            else
+            {
+                while(robot.bsLightSensor.getLightDetected() < FieldConstants.LIGHT_REFLECTION_10MM_WHITE_SECURE)
+                    if (robot.reversed)
+                        robot.rightDrive.motor.setPower(0.2);
+                    else
+                        robot.leftDrive.motor.setPower(0.2);
+            }
+
+            robot.leftDrive.motor.setPower(0);
+            robot.rightDrive.motor.setPower(0);
+
+            idle();
+
+            encStruct = new EncoderInstructionSet();
+            encStruct.add(robot.leftDrive.createEncoderInstruction(0.25, 3.05, 5));
+            encStruct.add(robot.rightDrive.createEncoderInstruction(0.25, 3.05, 5));
+            encStruct.run();
+            idle();
+
+            if (robot.colorSensor.isBeaconRed())
+                robot.beaconSwitcher.increment(-0.25);
+            else if (robot.colorSensor.isBeaconBlue())
+                robot.beaconSwitcher.increment(0.25);
+            idle();
+            robot.pause(1000);
+            idle();
+            robot.beaconSwitcher.goHome();
+            idle();
+            robot.pause(1000);
+            idle();
+            if (robot.colorSensor.isBeaconRed())
+                robot.beaconSwitcher.increment(-0.25);
+            else if (robot.colorSensor.isBeaconBlue())
+                robot.beaconSwitcher.increment(0.25);
+            idle();
+            robot.pause(1000);
+            idle();
+            robot.beaconSwitcher.goHome();
+
+            /*
+            //Second Beacon
+            while(robot.bsLightSensor.getLightDetected() < FieldConstants.LIGHT_REFLECTION_10MM_WHITE_SECURE && robot.nbsLightSensor.getLightDetected() < FieldConstants.LIGHT_REFLECTION_15MM_WHITE_SECURE) {
+                runtime.reset();
+
+                boolean found = false;
+
+                while (runtime.seconds() <  3) {
+                    robot.rightDrive.motor.setPower(-0.1);
+                    robot.leftDrive.motor.setPower(-0.1);
 
                     if (!(robot.bsLightSensor.getLightDetected() < FieldConstants.LIGHT_REFLECTION_10MM_WHITE_SECURE && robot.nbsLightSensor.getLightDetected() < FieldConstants.LIGHT_REFLECTION_15MM_WHITE_SECURE)) {
                         found = true;
@@ -103,7 +177,7 @@ public class Dec2RedLinear extends LinearOpMode {
                     if (robot.reversed)
                         robot.leftDrive.motor.setPower(0.1);
                     else
-                        robot.rightDrive.motor.setPower(0.1);
+                        robot.rightDrive.motor.setPower(-0.1);
             }
             else
             {
@@ -111,7 +185,7 @@ public class Dec2RedLinear extends LinearOpMode {
                     if (robot.reversed)
                         robot.rightDrive.motor.setPower(0.1);
                     else
-                        robot.leftDrive.motor.setPower(0.1);
+                        robot.leftDrive.motor.setPower(-0.1);
             }
 
             robot.leftDrive.motor.setPower(0);
@@ -120,8 +194,8 @@ public class Dec2RedLinear extends LinearOpMode {
             idle();
 
             encStruct = new EncoderInstructionSet();
-            encStruct.add(robot.leftDrive.createEncoderInstruction(0.2, 4.05, 5));
-            encStruct.add(robot.rightDrive.createEncoderInstruction(0.2, 4.05, 5));
+            encStruct.add(robot.leftDrive.createEncoderInstruction(0.2, 3.05, 5));
+            encStruct.add(robot.rightDrive.createEncoderInstruction(0.2, 3.05, 5));
             encStruct.run();
             idle();
 
@@ -143,7 +217,7 @@ public class Dec2RedLinear extends LinearOpMode {
             idle();
             robot.pause(500);
             idle();
-            robot.beaconSwitcher.goHome();
+            robot.beaconSwitcher.goHome();*/
 
             robot.stop();
         } catch (UnfoundHardwareException ex) {

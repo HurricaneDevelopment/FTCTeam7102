@@ -3,13 +3,8 @@ package org.firstinspires.ftc.teamcode.opmodes.teleop;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.control.EncoderInstructionSet;
-import org.firstinspires.ftc.teamcode.exceptions.UnfoundHardwareException;
 import org.firstinspires.ftc.teamcode.opmodes.MasterOpMode;
-import org.firstinspires.ftc.teamcode.robots.TetrixConstants;
-import org.firstinspires.ftc.teamcode.robots.configurations.RobotEncodedTankDrive;
 import org.firstinspires.ftc.teamcode.robots.configurations.RobotTankDriveBeacon;
-import org.firstinspires.ftc.teamcode.util.Converter;
 
 /**
  * Created by Spencer on 11/30/2016.
@@ -37,9 +32,9 @@ public class Dec2 extends MasterOpMode {
             robot.reverseDrive();
 
         if (gamepad1.right_trigger > 0.25)
-            robot.beaconSwitcher.increment(0.01);
+            robot.beaconSwitcher.increment(-0.02);
         if (gamepad1.left_trigger > 0.25)
-            robot.beaconSwitcher.increment(-0.01);
+            robot.beaconSwitcher.increment(0.02);
 
         robot.leftDrive.motor.setPower(-gamepad1.left_stick_y);
         robot.rightDrive.motor.setPower(-gamepad1.right_stick_y);

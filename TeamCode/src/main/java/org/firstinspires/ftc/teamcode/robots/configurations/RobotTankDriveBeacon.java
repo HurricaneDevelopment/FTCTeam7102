@@ -7,14 +7,12 @@ import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 
 import org.firstinspires.ftc.teamcode.control.EncoderInstructionSet;
 import org.firstinspires.ftc.teamcode.exceptions.UnfoundHardwareException;
+import org.firstinspires.ftc.teamcode.hardware.AdaFruitColorSensor;
 import org.firstinspires.ftc.teamcode.hardware.DcMotorW;
 import org.firstinspires.ftc.teamcode.hardware.ServoW;
-
 import org.firstinspires.ftc.teamcode.robots.Robot;
-import org.firstinspires.ftc.teamcode.hardware.AdaFruitColorSensor;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+import java.util.Arrays;
 
 /**
  * Created by Spencer on 11/30/2016.
@@ -107,8 +105,8 @@ public class RobotTankDriveBeacon extends Robot {
     }
 
     public void ultraParallelOne() {
-            double stealthInch = ultrasonicToInches(ultraStealth.getUltrasonicLevel());
-            double omniInch = ultrasonicToInches(ultraOmni.getUltrasonicLevel());
+            double stealthInch = ultrasonicToInches(getUltraStealth());
+            double omniInch = ultrasonicToInches(getUltraOmni());
 
             while (stealthInch != omniInch) {
                 if (omniInch > stealthInch)
@@ -123,8 +121,8 @@ public class RobotTankDriveBeacon extends Robot {
                     else
                         rightDrive.motor.setPower(-0.2);
 
-                stealthInch = ultrasonicToInches(ultraStealth.getUltrasonicLevel());
-                omniInch = ultrasonicToInches(ultraOmni.getUltrasonicLevel());
+                stealthInch = ultrasonicToInches(getUltraStealth());
+                omniInch = ultrasonicToInches(getUltraOmni());
             }
 
             leftDrive.motor.setPower(0);
@@ -132,8 +130,8 @@ public class RobotTankDriveBeacon extends Robot {
     }
 
     public void ultraParallel() {
-            double stealthInch = ultrasonicToInches(ultraStealth.getUltrasonicLevel());
-            double omniInch = ultrasonicToInches(ultraOmni.getUltrasonicLevel());
+            double stealthInch = ultrasonicToInches(getUltraStealth());
+            double omniInch = ultrasonicToInches(getUltraOmni());
 
             int c =0;
             while (stealthInch != omniInch) {
@@ -142,15 +140,15 @@ public class RobotTankDriveBeacon extends Robot {
                 ultraParallelOne();
                 this.pause(250);
 
-                stealthInch = ultrasonicToInches(ultraStealth.getUltrasonicLevel());
-                omniInch = ultrasonicToInches(ultraOmni.getUltrasonicLevel());
+                stealthInch = ultrasonicToInches(getUltraStealth());
+                omniInch = ultrasonicToInches(getUltraOmni());
 
                 c++;
             }
     }
 
     public void goToDistance(double min,double max) throws UnfoundHardwareException {
-        double stealthInch = ultrasonicToInches(ultraStealth.getUltrasonicLevel());
+        double stealthInch = ultrasonicToInches(getUltraStealth());
 
         if (stealthInch > max) {
             EncoderInstructionSet slightTurn = new EncoderInstructionSet();
@@ -169,7 +167,7 @@ public class RobotTankDriveBeacon extends Robot {
                     rightDrive.motor.setPower(-0.25);
                 }
 
-                stealthInch = ultrasonicToInches(ultraStealth.getUltrasonicLevel());
+                stealthInch = ultrasonicToInches(getUltraStealth());
             }
 
             leftDrive.motor.setPower(0);
@@ -191,11 +189,35 @@ public class RobotTankDriveBeacon extends Robot {
                     rightDrive.motor.setPower(0.25);
                 }
 
-                stealthInch = ultrasonicToInches(ultraStealth.getUltrasonicLevel());
+                stealthInch = ultrasonicToInches(getUltraStealth());
             }
 
             leftDrive.motor.setPower(0);
             rightDrive.motor.setPower(0);
         }
+    }
+    public double getUltraOmni()
+    {
+        double measurements[] = new double[5];
+        for(int i=0; i < 5; i++)
+         {
+            measurements[i] = ultraOmni.getUltrasonicLevel();
+            pause(1);
+        }
+        Arrays.sort(measurements);
+
+        return measurements[2];
+    }
+    public double getUltraStealth()
+    {
+        double measurements[] = new double[5];
+        for(int i=0; i < 5; i++)
+        {
+            measurements[i] = ultraStealth.getUltrasonicLevel();
+            pause(1);
+        }
+        Arrays.sort(measurements);
+
+        return measurements[2];
     }
 }
