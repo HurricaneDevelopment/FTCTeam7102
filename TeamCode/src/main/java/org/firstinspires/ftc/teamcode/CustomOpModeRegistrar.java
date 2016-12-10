@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.opmodes.teleop.Dec2;
 import org.firstinspires.ftc.teamcode.opmodes.teleop.EncoderTool;
 import org.firstinspires.ftc.teamcode.opmodes.tests.ColorTest;
 import org.firstinspires.ftc.teamcode.opmodes.tests.ODSTest;
+import org.firstinspires.ftc.teamcode.opmodes.tests.ServoColorTest;
 import org.firstinspires.ftc.teamcode.opmodes.tests.UltrasonicTestDouble;
 
 
@@ -31,6 +32,7 @@ public class CustomOpModeRegistrar {
         manager.register("Dec2 Teleop", Dec2.class);
         manager.register("Optical Distance Sensor Test", ODSTest.class);
         manager.register("Dec2 Auto Blue L", Dec2BlueLinear.class);
+        manager.register("Color Beacon Test", ServoColorTest.class);
 
     }
 }

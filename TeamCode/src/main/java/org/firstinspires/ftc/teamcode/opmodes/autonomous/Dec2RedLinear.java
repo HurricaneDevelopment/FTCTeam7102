@@ -122,6 +122,8 @@ public class Dec2RedLinear extends LinearOpMode {
             encStruct.run();
             idle();
 
+
+
             if (robot.colorSensor.isBeaconRed())
                 robot.beaconSwitcher.increment(-0.25);
             else if (robot.colorSensor.isBeaconBlue())
@@ -218,6 +220,18 @@ public class Dec2RedLinear extends LinearOpMode {
             robot.pause(500);
             idle();
             robot.beaconSwitcher.goHome();*/
+
+
+            /*
+                Drive to center
+                robot.rightDrive.motor.setPower(0.5);
+                robot.leftDrive.motor.setPower(0.5);
+                robot.leftDrive.createEncoderInstruction(0.2,60,5);
+                robot.rightDrive.createEncoderInstruction(0.2,60,5)
+
+
+             */
+
 
             robot.stop();
         } catch (UnfoundHardwareException ex) {

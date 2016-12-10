@@ -3,8 +3,8 @@ package org.firstinspires.ftc.teamcode.opmodes.tests;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.Range;
+
+import org.firstinspires.ftc.teamcode.robots.configurations.RobotTankDriveBeacon;
 
 /**
  * Created by vivek on 11/17/2016.
@@ -18,34 +18,18 @@ public class ServoColorTest extends LinearOpMode {
     private static final double DEFAULT_POSITION = 100;
     private static final double INCREMENTAL = 1.0;
 
-    private Servo servo;
+    public RobotTankDriveBeacon robot;
 
     public void runOpMode() throws InterruptedException {
-        servo = hardwareMap.servo.get("servo");
-
-        servo.setPosition(degree200ToServo(DEFAULT_POSITION));
-        double switchPosition = degree200FromServo(servo.getPosition());
 
         waitForStart();
-        while (opModeIsActive()) {
-            if(gamepad1.left_trigger == 1)
-                switchPosition += INCREMENTAL;
-            if(gamepad1.right_trigger == 1)
-                switchPosition -= INCREMENTAL;
-
-            servo.setPosition(degree200ToServo(switchPosition));
-
-            telemetry.addData("Current Position: ","%f",servo.getPosition());
-            telemetry.update();
-            idle();
+        while(opModeIsActive())
+        {
+            if (robot.colorSensor.isBeaconRed())
+                robot.beaconSwitcher.increment(-0.25);
+            else if (robot.colorSensor.isBeaconBlue())
+                robot.beaconSwitcher.increment(0.25);
         }
     }
 
-    private static double degree200ToServo(double in) {
-        return Range.scale(Range.clip(in,0.0,SERVO_DEGREES),0.0,SERVO_DEGREES,Servo.MIN_POSITION,Servo.MAX_POSITION);
-    }
-
-    private static double degree200FromServo(double in) {
-        return Range.scale(Range.clip(in,Servo.MIN_POSITION,Servo.MAX_POSITION),Servo.MIN_POSITION,Servo.MAX_POSITION,0.0,SERVO_DEGREES);
-    }
 }
