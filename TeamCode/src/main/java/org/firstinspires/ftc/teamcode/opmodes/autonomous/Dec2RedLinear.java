@@ -52,8 +52,8 @@ public class Dec2RedLinear extends LinearOpMode {
             robot.pause(100);
 
             encStruct = new EncoderInstructionSet();
-            encStruct.add(robot.leftDrive.createEncoderInstruction(0.75, 22, 5));
-            encStruct.add(robot.rightDrive.createEncoderInstruction(0.75, 22, 5));
+            encStruct.add(robot.leftDrive.createEncoderInstruction(0.75, 10, 5));
+            encStruct.add(robot.rightDrive.createEncoderInstruction(0.75, 10, 5));
             encStruct.run();
             idle();
             robot.pause(100);
@@ -73,8 +73,8 @@ public class Dec2RedLinear extends LinearOpMode {
                 boolean found = false;
 
                 while (runtime.seconds() <  3) {
-                    robot.rightDrive.motor.setPower(0.15);
-                    robot.leftDrive.motor.setPower(0.15);
+                    robot.rightDrive.motor.setPower(0.2);
+                    robot.leftDrive.motor.setPower(0.2);
 
                     if (!(robot.bsLightSensor.getLightDetected() < FieldConstants.LIGHT_REFLECTION_10MM_WHITE_SECURE && robot.nbsLightSensor.getLightDetected() < FieldConstants.LIGHT_REFLECTION_15MM_WHITE_SECURE)) {
                         found = true;
@@ -117,8 +117,8 @@ public class Dec2RedLinear extends LinearOpMode {
             idle();
 
             encStruct = new EncoderInstructionSet();
-            encStruct.add(robot.leftDrive.createEncoderInstruction(0.25, 3.05, 5));
-            encStruct.add(robot.rightDrive.createEncoderInstruction(0.25, 3.05, 5));
+            encStruct.add(robot.leftDrive.createEncoderInstruction(0.5, 3.05, 5));
+            encStruct.add(robot.rightDrive.createEncoderInstruction(0.5, 3.05, 5));
             encStruct.run();
             idle();
 
