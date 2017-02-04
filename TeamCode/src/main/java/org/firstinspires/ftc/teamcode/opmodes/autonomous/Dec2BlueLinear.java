@@ -26,7 +26,7 @@ public class Dec2BlueLinear extends LinearOpMode {
             robot.loadHardware(hardwareMap);
             robot.start();
 
-            robot.reverseDrive();
+            //robot.reverseDrive();
 
             waitForStart();
 
@@ -35,7 +35,7 @@ public class Dec2BlueLinear extends LinearOpMode {
             encStruct.add(robot.rightDrive.createEncoderInstruction(1, 9, 5));
             encStruct.run();
             idle();
-
+            robot.ultraParallel();
 
             encStruct = new EncoderInstructionSet();
             encStruct.add(robot.leftDrive.createEncoderInstruction(1, 3.5, 5));

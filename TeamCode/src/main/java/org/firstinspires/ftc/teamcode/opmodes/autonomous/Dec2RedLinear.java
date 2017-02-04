@@ -29,10 +29,11 @@ public class Dec2RedLinear extends LinearOpMode {
             waitForStart();
 
             EncoderInstructionSet encStruct = new EncoderInstructionSet();
-            encStruct.add(robot.leftDrive.createEncoderInstruction(1, 9, 5));
-            encStruct.add(robot.rightDrive.createEncoderInstruction(1, 9, 5));
+            encStruct.add(robot.leftDrive.createEncoderInstruction(1, 9.0, 5));
+            encStruct.add(robot.rightDrive.createEncoderInstruction(1, 9.0, 5));
             encStruct.run();
             idle();
+            robot.ultraParallel();  
 
 
             encStruct = new EncoderInstructionSet();
@@ -59,6 +60,7 @@ public class Dec2RedLinear extends LinearOpMode {
             robot.pause(100);
 
             robot.goToDistance(3.1, 4.0);
+
             idle();
             robot.pause(100);
             robot.ultraParallel();

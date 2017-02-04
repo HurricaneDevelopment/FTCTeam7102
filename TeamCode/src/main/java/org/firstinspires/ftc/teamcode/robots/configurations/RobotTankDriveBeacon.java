@@ -21,6 +21,8 @@ import java.util.Arrays;
 public class RobotTankDriveBeacon extends Robot {
     public DcMotorW leftDrive;
     public DcMotorW rightDrive;
+    public DcMotorW collector;
+    public DcMotorW shooter;
 
     public ServoW beaconSwitcher;
 
@@ -51,6 +53,7 @@ public class RobotTankDriveBeacon extends Robot {
         } catch (UnfoundHardwareException ex) {
             colorSensor = null;
         }
+
         ultraOmni = hwmap.ultrasonicSensor.get("uOmni");
         ultraStealth = hwmap.ultrasonicSensor.get("uStealth");
         bsLightSensor = hwmap.lightSensor.get("bsLS");
@@ -61,9 +64,16 @@ public class RobotTankDriveBeacon extends Robot {
     public void start() throws UnfoundHardwareException {
         leftDrive = motors.get("left");
         rightDrive = motors.get("right");
+        collector = motors.get("collector");
+        shooter = motors.get("shooter");
 
+        collector.motor.setDirection(DcMotor.Direction.REVERSE);
         leftDrive.motor.setDirection(DcMotor.Direction.REVERSE);
         rightDrive.motor.setDirection(DcMotor.Direction.REVERSE);
+        shooter.motor.setDirection(DcMotor.Direction.REVERSE);
+
+        shooter.motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        collector.motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         leftDrive.motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightDrive.motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -152,6 +162,19 @@ public class RobotTankDriveBeacon extends Robot {
 
                 c++;
             }
+    }
+
+    public void lightLineUp() {
+        while (bsLightSensor.getLightDetected() > nbsLightSensor.getLightDetected())
+        {
+            leftDrive.motor.setPower(0.5);
+        }
+        while (bsLightSensor.getLightDetected() < nbsLightSensor.getLightDetected())
+        {
+            rightDrive.motor.setPower(-0.5);
+        }
+
+
     }
 
     public void goToDistance(double min,double max) throws UnfoundHardwareException {
