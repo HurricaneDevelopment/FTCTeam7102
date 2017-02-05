@@ -31,6 +31,7 @@ public class CustomOpModeRegistrar {
         manager.register("Encoder Tool", EncoderTool.class);
         manager.register("Light Test", org.firstinspires.ftc.teamcode.LightTest.class);
         manager.register("Color Test", ColorTest.class);
+        manager.register("ODST Class", ODSTest.class);
         manager.register("Ultrasonic Test", UltrasonicTestDouble.class);
        // manager.register("Dec2 Red", Dec2Red.class);
         manager.register("Dec2 Auto Red L", Dec2RedLinear.class);

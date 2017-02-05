@@ -16,7 +16,8 @@ public class ODSTest extends LinearOpMode{
         ods = hardwareMap.opticalDistanceSensor.get("ods");
         ods.enableLed(true);
         waitForStart();
-        while(opModeIsActive()) {
+        while(opModeIsActive())
+        {
             telemetry.addData("Light Sensor read out: ", ods.getLightDetected());
             telemetry.update();
             idle();

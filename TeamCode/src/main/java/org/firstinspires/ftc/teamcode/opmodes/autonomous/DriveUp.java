@@ -20,8 +20,8 @@ public class DriveUp extends LinearOpMode {
         runtime = new ElapsedTime();
         try {
             EncoderInstructionSet encStruct = new EncoderInstructionSet();
-            robot.leftDrive.createEncoderInstruction(0.5,114,5);
-            robot.rightDrive.createEncoderInstruction(0.5,114,5);
+            robot.leftDrive.createEncoderInstruction(0.5,45.75,5);
+            robot.rightDrive.createEncoderInstruction(0.5,45.75,5);
             encStruct.run();
             idle();
             robot.stop();

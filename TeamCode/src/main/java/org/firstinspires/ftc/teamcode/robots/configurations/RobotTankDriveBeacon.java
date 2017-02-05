@@ -22,7 +22,10 @@ public class RobotTankDriveBeacon extends Robot {
     public DcMotorW leftDrive;
     public DcMotorW rightDrive;
     public DcMotorW collector;
+    public DcMotorW collector1;
     public DcMotorW shooter;
+
+
 
     public ServoW beaconSwitcher;
 
@@ -66,15 +69,18 @@ public class RobotTankDriveBeacon extends Robot {
         rightDrive = motors.get("right");
         collector = motors.get("collector");
         shooter = motors.get("shooter");
+        collector1 = motors.get("collector1");
 
-        collector.motor.setDirection(DcMotor.Direction.REVERSE);
+        collector.motor.setDirection(DcMotor.Direction.FORWARD);
         leftDrive.motor.setDirection(DcMotor.Direction.REVERSE);
         rightDrive.motor.setDirection(DcMotor.Direction.REVERSE);
         shooter.motor.setDirection(DcMotor.Direction.REVERSE);
+        collector1.motor.setDirection(DcMotor.Direction.REVERSE);
 
-        shooter.motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        collector.motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
+/*
+        collector.motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        collector1.motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+*/
         leftDrive.motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightDrive.motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftDrive.motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

@@ -38,14 +38,33 @@ public class Dec2 extends MasterOpMode {
             robot.beaconSwitcher.increment(0.02);
         /*if(gamepad1.y)  //Eli's Idea
             robot.ultraParallelOne();*/
-        if(gamepad1.a)
+
+        if(gamepad2.a)
             robot.collector.motor.setPower(0.75);
         else
             robot.collector.motor.setPower(0);
-        if(gamepad1.y)
+
+        if(gamepad2.y)
             robot.shooter.motor.setPower(1.0);
         else
             robot.shooter.motor.setPower(0);
+
+        if(gamepad2.x)
+            robot.collector1.motor.setPower(0.75);
+        else
+            robot.collector1.motor.setPower(0.0);
+       /* if(gamepad2.b)
+        {
+
+            robot.collector.motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.collector1.motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.collector1.motor.setTargetPosition(215);
+            robot.collector1.motor.setPower(0.75);
+            robot.collector.motor.setTargetPosition(339);
+            robot.collector.motor.setPower(0.75);
+            robot.collector.motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.collector1.motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        }*/
 
 
         robot.leftDrive.motor.setPower(-gamepad1.left_stick_y);
@@ -53,6 +72,9 @@ public class Dec2 extends MasterOpMode {
 
         telemetry.addData("Servo Pos",robot.beaconSwitcher.servo.getPosition());
         telemetry.addData("Red,Blue", "%d,%d", robot.colorSensor.red(), robot.colorSensor.blue());
+        telemetry.addData("Inner Collector current position: ", robot.collector1.motor.getCurrentPosition());
+        telemetry.addData("Outer Collector current position: ", robot.collector.motor.getCurrentPosition());
+        telemetry.update();
         /*
         String col = "";
         if (robot.colorSensor.red() - robot.colorSensor.blue() > 100)
